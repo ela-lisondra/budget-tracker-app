@@ -12,9 +12,9 @@ export default function NavBar(){
     console.log(user)
 
     return(
-        <Navbar bg="light" expand="lg">
+        <Navbar expand="lg">
             <Link href="/">
-                <a className="navbar-brand">Next-Booking</a>
+                <a className="navbar-brand">Tpido</a>
             </Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -32,14 +32,14 @@ export default function NavBar(){
                              <Link href="/search">
                                  <a className="nav-link" role="button">Search</a>
                             </Link>
-                             <Link href="/balance">
-                                 <a className="nav-link" role="button">Balance</a>
+                             <Link href="/categories">
+                                 <a className="nav-link" role="button">Category</a>
                             </Link>
                             <Link href="/income">
                                  <a className="nav-link" role="button">Income</a>
                             </Link>
-                            <Link href="/expense">
-                                 <a className="nav-link" role="button">Expense</a>
+                            <Link href="/record">
+                                 <a className="nav-link" role="button">Record</a>
                             </Link>
                             <Link href="/logout">
                                 <a className="nav-link" role="button">Logout</a>

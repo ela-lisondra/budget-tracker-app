@@ -1,47 +1,60 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
+//CSS
 import '../styles/globals.css'
-import {useState, useEffect} from 'react'
+
+//react
+import {Fragment, useState, useEffect} from 'react'
+
+// import BS components
 import {Container} from 'react-bootstrap'
 
-import NavBar from '../components/Navbar'
+//components
+import NavBar from '../components/NavBar'
 
+
+//import UserProvider
 import {UserProvider} from '../userContext'
 
 function MyApp({ Component, pageProps }) {
-  // console.log(Component)
-  const [user,setUser] = useState({
-    email: null,
-    id: null
-   
-  })
 
-  useEffect(()=>{
+	const [user,setUser] = useState({
 
-    setUser({
-      email: localStorage.getItem('email'),
-      id: localStorage.getItem('id')
-    })
-  },[])
+		email: null,
+		id: null
+	})
 
-  const unsetUser = () => {
-    localStorage.clear()
 
-    setUser({
-      email:null
-      
-    })
-  }
-  
+
+	useEffect(()=>{
+		setUser({
+			email: localStorage.getItem('email'),
+			id: localStorage.getItem('id')
+		})
+	},[])
+
+
+	const unsetUser = () =>{
+
+		//clear the localSorage
+		localStorage.clear()
+
+		setUser({
+			email: null
+		})
+	}
+
+
+
   return (
-          <>
-            <UserProvider value={{user,setUser,unsetUser}}>
-            <NavBar />
-              <Container>
-                <Component {...pageProps} /> 
-              </Container>
-            </UserProvider>
-          </>
-      )
+  		<Fragment>
+  			<UserProvider value ={{user,setUser,unsetUser}}>
+  			<NavBar />
+  			<Container fluid>	
+  				<Component {...pageProps} />
+  			</Container>
+  			</UserProvider>
+  		</Fragment>
+  	)
 }
 
 export default MyApp

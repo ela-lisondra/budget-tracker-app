@@ -80,7 +80,7 @@ export default function Login(){
 					setUser({
 
 						email: data.email,
-						id: data_id
+						id: data._id
 						
 
 					})
@@ -144,7 +144,6 @@ export default function Login(){
 	    )
 
 }
-
 
 
 // import {useState, useEffect, useContext} from 'react'
