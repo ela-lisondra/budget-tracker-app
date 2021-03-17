@@ -38,7 +38,7 @@ export default function NavBar(){
                             <Link href="/income">
                                  <a className="nav-link" role="button">Income</a>
                             </Link>
-                            <Link href="/record">
+                            <Link href="/records">
                                  <a className="nav-link" role="button">Record</a>
                             </Link>
                             <Link href="/logout">

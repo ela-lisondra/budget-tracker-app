@@ -1,12 +1,15 @@
 import{useState, useEffect, useContext} from 'react'
 import {Card} from 'react-bootstrap'
+import moment from 'moment'
 
 
 // To get the prop, destructure it
-export default function Record({recordProp}){
+export default function Category({recordProp}){
 
 	//  after you get the prop, destructure it para makuha mo yng laman na need mo:
-	const {_id, name, type, date, balance} = recordProp
+	const {_id, name, type,category, balance, recordedOn, description, amount} = recordProp
+
+	let bago = (moment(recordedOn).format('LLLL')) 
 
 	return(
 
@@ -16,19 +19,26 @@ export default function Record({recordProp}){
 						{name}
 					</Card.Title>
 					<Card.Text>
-						{type}
+						Type: {type}
 					</Card.Text>
-                    <Card.Text>
-						{category}
+					<Card.Text>
+						Category: {category}
 					</Card.Text>
-                    <Card.Text>
-						{date}
+					<Card.Text>
+						Date: {bago}
 					</Card.Text>
-                    <Card.Text>
-						{balance}
+					<Card.Text>
+						Amount: ${amount}
 					</Card.Text>
-					<Button variant="primary">Add</Button>
+					<Card.Text>
+						Description: {description}
+					</Card.Text>					
+					<Card.Title>
+						Balance: ${balance}
+					</Card.Title>					
 				</Card.Body>
 			</Card>
 		)
 }
+
+

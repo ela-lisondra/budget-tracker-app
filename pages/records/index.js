@@ -1,5 +1,4 @@
 import {useState, useEffect, useContext} from 'react'
-import Record from '../../components/Record'
 import {Form, Button, Container, Row, Col, Card} from 'react-bootstrap'
 import Swal from 'sweetalert2'
 
@@ -7,32 +6,109 @@ import Router from 'next/router'
 //import user context
 import UserContext from '../../userContext'
 
-export default function AddRecord(){
+import Record from '../../components/Record'
+
+
+export default function Records(){ // Replaced Categories to 'Records'
 
 const {user} = useContext(UserContext)
 console.log(user)
 
-const [selection, setSelection] = useState("Income")
-const [type , setType] = useState("")
-const [category , setCategory] = useState("")
-const [description, setDescription] = useState("")
-const [price, setPrice] = useState("")
+//State for token
 
-//State for the token
-    const [userToken,setUserToken] = useState({
-  
-       userToken: null
-    })
+const [userToken, setUserToken] = useState({
+
+	setUserToken:null
+})
+
+//State for Category Type seletion
+const [selection, setSelection] = useState("")
+//State for Category Name selection
+const [categoryNameSelection, setCategoryNameSelection] = useState([])
+//State for final Category Name selection
+const [categoryName, setCategoryName] = useState("")
+//State for amount field
+const [recordAmount, setRecordAmount] = useState(0);
+//State for description field
+const [recordDescription, setRecordDescription] = useState("");
+
+//State for balance
+const [balance, setBalance] = useState(0);
+
+//State for Date
+const [date, setDate] = useState("");
+
+//State for the all records
+    const [records,setRecords] = useState([]);
 
  //useEffect for the Token
+
       useEffect(()=>{
+
       setUserToken(localStorage.getItem('token'))
+
 
     },[])
 
-const [allRecords, setAllRecords] = useState([])
+
+//useEffect for Balance
+      useEffect(()=>{
+
+
+      	fetch('http://localhost:8000/api/users/balance',{
+		headers: {
+			'Authorization': `Bearer ${localStorage.getItem('token')}`
+		}
+	})
+	.then(res=> res.json())
+	.then(data=>{
+
+		setBalance(data)
+
+	})
+
+    },[balance])
+
+      //useEffect for the all records
+
+      useEffect(()=>{
+
+      fetch('http://localhost:8000/api/users/allTransactions',{
+		headers: {
+			'Authorization': `Bearer ${localStorage.getItem('token')}`
+		}
+	})
+	.then(res=> res.json())
+	.then(data=>{
+
+		setRecords(data)
+
+	})
+
+
+    },[])
+console.log('Records',records)
+     
+
+
+
+const recordsArray = records.map(record=>{
+	return(
+
+		 	<Record key={record._id} recordProp={record} />
+		)
+})
+
+
+
+
+
+
+const [allCategories, setAllCategories] = useState([])
 
 useEffect(()=>{
+
+
 
 	fetch('http://localhost:8000/api/users/allCategories',{
 		headers: {
@@ -43,109 +119,201 @@ useEffect(()=>{
 	.then(data =>{
 
 		console.log(data)
-		setAllRecords(data)
+		// setAllCategories(data)
+		let incomeArray=[];
+		let expenseArray=[];
+
+		if(selection === "Income"){
+
+			data.filter(result=>{
+				if(result.type==="Income"){
+
+						incomeArray.push({_id: result._id, name: result.name})
+				}
+			})
+
+			setCategoryNameSelection(incomeArray)
+
+		}else{
+
+			data.filter(result=>{
+				if(result.type==="Expense"){
+
+						expenseArray.push({_id: result._id, name: result.name})
+				}
+			})
+
+			setCategoryNameSelection(expenseArray)
+		}
+
+
+
+
 	})
-},[])
+},[selection])
 
-console.log(allRecords)
 
-const recordsCards = allRecords.map(record=>{
+
+
+// console.log(categoryNameSelection)
+
+const categoriesSelect = categoryNameSelection.map(category=>{
 	return(
 
-		 	<Record key = {record._id} recordProp = {record} />
+		 	<option key={category._id}>{category.name}</option>
 		)
 })
 
-function  selectType(e){
+
+
+
+function  addRecord(e){
+
+	
 
 e.preventDefault();
-console.log('userToken', userToken)
-console.log('selection',selection)
-console.log('recordName',recordName)
+// console.log('userToken', userToken)
+// console.log('selection',selection)
+// console.log('categoryName',categoryName)
 
-fetch('http://localhost:8000/api/users/record',{
+let newBalance= 0;
+
+if(selection === "Income"){
+	newBalance = balance+ parseInt(recordAmount)
+}else{
+	newBalance= balance-parseInt(recordAmount)
+}
+
+
+fetch('http://localhost:8000/api/users/transaction',{
 	method :'POST',
 	headers: {
 		'Content-Type':'application/json',
 		'Authorization': `Bearer ${userToken}`
 	},
-
 	body: JSON.stringify({
 		id:  user.id,
-		name: categoryName,
-		type: selection 
-
+		type: selection,
+		category: categoryName,
+		amount: recordAmount,
+		description: recordDescription,
+		balance: newBalance,
+		recordedOn:date
 	})
 })
 
 .then(res => res.json())
 .then(data =>{
 
-	console.log(data)
+	console.log('newBalance',data)
+
+	fetch('http://localhost:8000/api/users/updateBalance',{
+			method :'PUT',
+			headers: {
+				'Content-Type':'application/json',
+				'Authorization': `Bearer ${userToken}`
+			},
+			body: JSON.stringify({
+				id:  user.id,
+				balance: newBalance
+			})
+		})
+		.then(res =>res.json())
+		.then(data =>{
+
+			setBalance(newBalance)
+		})
 
 
 	if(data){
 
 		Swal.fire({
 
-            icon: "success",
-            title: " New record name successfully created.",
-            text: "Thank you."
-        })
-        Router.reload();
+						icon: "success",
+						title: " Success!.",
+						text: "New transaction is recorded."
+					})
+					setCategoryName("");
+					setSelection("");
+					setRecordAmount(0);
+					setRecordDescription("");
+					Router.reload();
+
+
 
 	}else{
 
-        Swal.fire({
+		  Swal.fire({
 
-            icon: "error",
-            title: "Creation failed",
-            text: "Please try again."
-        })			
+			icon: "error",
+			title: "Category Creation failed",
+			text: "Please try again."
+			})	
 	}
 
 
 })
-			setCategoryName("");
-			setSelection("Income");
+
+					
+					
 
 
 }
 
 	return(
+
+
 		<Container>
 			<Row>
 				<Col xs={12} md={6} className="my-3">
-					<h4>Add Income / Expense Category</h4>
-					<Form onSubmit ={e => selectType(e)}>
-                        <Form.Group controlId="selectionLabel">
-							<Form.Label>Category Type</Form.Label>
-							<Form.Control as="select" value={selection} onChange={e=> setSelection(e.target.value)}>
-							      
-							    <option>Income</option>
-							    <option>Expense</option>
-							</Form.Control>
-                        </Form.Group>
-						<Form.Group controlId="cname">
-							<Form.Label>Category  Name:</Form.Label>
-							<Form.Control type="text" placeholder="Enter Category Name"  value={recordName} onChange={e=> setCategoryName(e.target.value)} required/>
-						</Form.Group>
-						<Form.Group controlId="selectionLabel">
-							<Form.Label>Amount</Form.Label>
-							<Form.Control as="select" value={selection} onChange={e=> setSelection(e.target.value)}>
-	
-							</Form.Control>
-  						</Form.Group>
-							
-							<Button variant="primary" type="submit">Create Category</Button>								
+					<h4 className="text-center my-3">Balance: PHP {balance}</h4>
+					<h4>Add Transaction</h4>
+					<Form onSubmit ={e => addRecord(e)}>
+
+							<Form.Group controlId="selectionLabel">
+							    <Form.Label>Category Type</Form.Label>
+							    <Form.Control as="select" required value={selection} onChange={e=> setSelection(e.target.value)}>
+							      <option value="" disabled >Please Select type</option>
+							      <option>Income</option>
+							      <option>Expense</option>
+							    </Form.Control>
+  							</Form.Group>
+  							<Form.Group controlId="selectionLabe2">
+							    <Form.Label>Category Name</Form.Label>
+							    <Form.Control as="select" value={categoryName} onChange={e=> setCategoryName(e.target.value)}>
+							      <option value="" disabled>Select Category Name</option>
+
+							      {categoriesSelect}
+
+							    </Form.Control>
+  							</Form.Group>
+  							<Form.Group controlId="camount">
+								<Form.Label>Amount:</Form.Label>
+								<Form.Control type="number" placeholder="Enter Amount"  value={recordAmount} onChange={e=> setRecordAmount(e.target.value)} required/>
+							</Form.Group>
+							<Form.Group controlId="cdesc">
+								<Form.Label>Description:</Form.Label>
+								<Form.Control type="text" placeholder="Enter Description"  value={recordDescription} onChange={e=> setRecordDescription(e.target.value)} required/>
+							</Form.Group>
+							<Form.Group controlId="cdate">
+								<Form.Label>Description:</Form.Label>
+								<Form.Control type="date" placeholder="Enter Date"  value={date} onChange={e=> setDate(e.target.value)} required/>
+							</Form.Group>		
+							<Button variant="primary" type="submit">Record Transaction</Button>
+								
 							
 			  		</Form>
 				</Col>
 				<Col xs={12} md={6} className="my-3">
-				<h4>Categories Overview</h4>
-					{categoriesCards}
+				 <h4 className="my-3">Transactions Overview:</h4>
+					{recordsArray}
 				</Col>
+				
 			</Row>
 		</Container>
+			
+
+
 		)
 }
+
