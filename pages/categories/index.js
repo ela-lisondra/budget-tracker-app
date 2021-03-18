@@ -40,7 +40,7 @@ useEffect(()=>{
 
 
 
-	fetch('http://localhost:8000/api/users/allCategories',{
+	fetch('https://limitless-taiga-35551.herokuapp.com/api/users/allCategories',{
 		headers: {
 			'Authorization': `Bearer ${localStorage.getItem('token')}`
 		}
@@ -79,7 +79,7 @@ console.log('categoryName',categoryName)
 
 
 
-fetch('http://localhost:8000/api/users/category',{
+fetch('https://limitless-taiga-35551.herokuapp.com/api/users/category',{
 	method :'POST',
 	headers: {
 		'Content-Type':'application/json',

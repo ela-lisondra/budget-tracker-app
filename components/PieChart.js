@@ -12,7 +12,7 @@ export default function PieChart(){
 
 	useEffect(()=>{
 
-		fetch('http://localhost:8000/api/users/allTransactions',{
+		fetch('https://limitless-taiga-35551.herokuapp.com/api/users/allTransactions',{
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem('token')}`
 			}

@@ -55,7 +55,7 @@ const [date, setDate] = useState("");
       useEffect(()=>{
 
 
-      	fetch('http://localhost:8000/api/users/balance',{
+      	fetch('https://limitless-taiga-35551.herokuapp.com/api/users/balance',{
 		headers: {
 			'Authorization': `Bearer ${localStorage.getItem('token')}`
 		}
@@ -73,7 +73,7 @@ const [date, setDate] = useState("");
 
       useEffect(()=>{
 
-      fetch('http://localhost:8000/api/users/allTransactions',{
+      fetch('https://limitless-taiga-35551.herokuapp.com/api/users/allTransactions',{
 		headers: {
 			'Authorization': `Bearer ${localStorage.getItem('token')}`
 		}
@@ -110,7 +110,7 @@ useEffect(()=>{
 
 
 
-	fetch('http://localhost:8000/api/users/allCategories',{
+	fetch('https://limitless-taiga-35551.herokuapp.com/api/users/allCategories',{
 		headers: {
 			'Authorization': `Bearer ${localStorage.getItem('token')}`
 		}
@@ -185,7 +185,7 @@ if(selection === "Income"){
 }
 
 
-fetch('http://localhost:8000/api/users/transaction',{
+fetch('https://limitless-taiga-35551.herokuapp.com/api/users/transaction',{
 	method :'POST',
 	headers: {
 		'Content-Type':'application/json',
@@ -207,7 +207,7 @@ fetch('http://localhost:8000/api/users/transaction',{
 
 	console.log('newBalance',data)
 
-	fetch('http://localhost:8000/api/users/updateBalance',{
+	fetch('https://limitless-taiga-35551.herokuapp.com/api/users/updateBalance',{
 			method :'PUT',
 			headers: {
 				'Content-Type':'application/json',
@@ -255,8 +255,6 @@ fetch('http://localhost:8000/api/users/transaction',{
 })
 
 					
-					
-
 
 }
 

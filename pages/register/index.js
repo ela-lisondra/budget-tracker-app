@@ -35,7 +35,7 @@ export default function Register(){
     function registerUser(e){    
         e.preventDefault()    
             //check if an email already exists
-        fetch('http://localhost:8000/api/users/email-exists',{
+        fetch('https://limitless-taiga-35551.herokuapp.com/api/users/email-exists',{
     
             method: 'POST',
             headers: {   
@@ -53,7 +53,7 @@ export default function Register(){
                 */   
             if(data === false){
     
-                fetch('http://localhost:8000/api/users',{
+                fetch('https://limitless-taiga-35551.herokuapp.com/api/users',{
                         method: 'POST',
                             //kapag POST matic na yung may {Content-Type}
                         headers: {'Content-Type': 'application/json'},

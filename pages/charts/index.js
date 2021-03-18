@@ -1,4 +1,4 @@
-import BarCharts from '../../components/Barcharts'
+import BarCharts from '../../components/BarCharts'
 import PieChart from '../../components/PieChart'
 import {Jumbotron} from 'react-bootstrap'
 

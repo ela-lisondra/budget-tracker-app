@@ -42,7 +42,7 @@ export default function Login(){
 		e.preventDefault();
 
 
-		fetch('http://localhost:8000/api/users/login',{
+		fetch('https://limitless-taiga-35551.herokuapp.com/api/users/login',{
 
 			method: "POST",
 			headers: {
@@ -62,7 +62,7 @@ export default function Login(){
 				//token lang ang kailangan natin
 				localStorage.setItem("token",data.accessToken)
 
-				fetch('http://localhost:8000/api/users/details',{
+				fetch('https://limitless-taiga-35551.herokuapp.com/api/users/details',{
 
 					headers:{
 
@@ -119,7 +119,7 @@ export default function Login(){
 
 	function authenticateGoogleToken(response){
         console.log(response)
-        fetch('http://localhost:8000/api/users/verify-google-id-token',{
+        fetch('https://limitless-taiga-35551.herokuapp.com/api/users/verify-google-id-token',{
             method: 'POST',
             headers: {
                 'Content-Type':'application/json'               
@@ -134,7 +134,7 @@ export default function Login(){
             if(typeof data.accessToken !== 'undefined'){
                 localStorage.setItem('token', data.accessToken)
 
-                fetch('http://localhost:8000/api/users/details',{
+                fetch('https://limitless-taiga-35551.herokuapp.com/api/users/details',{
                     headers: {
                         'Authorization': `Bearer ${data.accessToken}`
                     }

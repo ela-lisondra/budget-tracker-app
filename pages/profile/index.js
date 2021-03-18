@@ -20,7 +20,7 @@ export default function Profile(){
 		setToken(localStorage.getItem('token'))
 	})
 
-	fetch('http://localhost:8000/api/users/details',{
+	fetch('https://limitless-taiga-35551.herokuapp.com/api/users/details',{
 		headers: {
 			'Authorization': `Bearer ${token}`
 		}
