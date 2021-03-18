@@ -102,7 +102,7 @@ export default function Register(){
                     setPassword2("")               
     }    
     return(    
-        <Form onSubmit={e=> registerUser(e)}>
+        <Form className="reg-form" onSubmit={e=> registerUser(e)}>
             <Form.Group controlId="userFirstName">
                 <Form.Label>First Name:</Form.Label>
                 <Form.Control type="text" placeholder="Enter First Name" value={firstName} onChange={e=> setFirstName(e.target.value)} required/>
@@ -130,9 +130,9 @@ export default function Register(){
                 {   
                     isActive
                     ?
-                    <Button variant="primary" type="submit"> Register</Button>    
+                    <Button className="reg-btn"  type="submit"> Register</Button>    
                     :
-                    <Button variant="primary" type="submit" disabled> Register</Button>    
+                    <Button  className="reg-btn" type="submit" disabled> Register</Button>    
                 }                        
         </Form>    
         )

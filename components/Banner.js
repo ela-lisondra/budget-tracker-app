@@ -19,3 +19,12 @@ export default function Banner({dataProp}){
         </Row>
     )
 }
+
+    //     return (
+    //         <>
+    //             <h1>{title}</h1>
+    //             <p>{content}</p>
+    //         </>
+
+    //     )
+    // }

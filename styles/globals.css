@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  color: white;
 }
 
 a {
@@ -15,6 +16,24 @@ a {
   box-sizing: border-box;
 }
 
-nav {
-  background-color: pink;
+nav, .card-body, .btn, .reg-btn {
+  background-color: #f0931e;
+}
+
+.container-fluid {
+  background-color: black;
+}
+
+.jumbotron {
+  color: black;
+}
+
+.reg-form {
+  
+  min-height: 100%;
+
+}
+
+.reg-form .reg-btn {
+  background-color:  #f0931e;
 }

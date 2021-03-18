@@ -32,11 +32,14 @@ export default function NavBar(){
                              <Link href="/search">
                                  <a className="nav-link" role="button">Search</a>
                             </Link>
+                            <Link href="/profile">
+                                <a className="nav-link" role="button">Profile</a>
+                            </Link>
                              <Link href="/categories">
                                  <a className="nav-link" role="button">Category</a>
                             </Link>
-                            <Link href="/income">
-                                 <a className="nav-link" role="button">Income</a>
+                            <Link href="/charts">
+                                 <a className="nav-link" role="button">Charts</a>
                             </Link>
                             <Link href="/records">
                                  <a className="nav-link" role="button">Record</a>
